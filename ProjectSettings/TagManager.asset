@@ -17,6 +17,10 @@ TagManager:
   - Ohje
   - Lava
   - suuntaText
+  - map1
+  - map2
+  - map3
+  - cannon
   layers:
   - Default
   - TransparentFX

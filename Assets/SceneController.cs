@@ -21,6 +21,7 @@ public class SceneController : MonoBehaviour {
 	public static int pisteet;
 	public static int rounds;
 	public static int deaths;
+	public static int roundActions;
 
 	public GameObject FPS;
 
@@ -55,9 +56,12 @@ public class SceneController : MonoBehaviour {
 				map1.SetActive (false);
 				map2.SetActive (true);
 				map3.SetActive (false);
+				print (map2.activeSelf);
 			} else if (mapNum == 3) {
 				FPS.GetComponentInChildren<FrostEffect> ().enabled = false;
+				GetComponent<Light> ().intensity = 1.25f;
 				RenderSettings.skybox = sky3;
+				RenderSettings.ambientIntensity = 2.27f;
 				map1.SetActive (false);
 				map2.SetActive (false);
 				map3.SetActive (true);
@@ -82,7 +86,10 @@ public class SceneController : MonoBehaviour {
 			
 		}
 		else if (skene == "Loppu") {
-			pisteet = 100 - (deaths + rounds);
+			rounds = Peli.rounds;
+			deaths = Peli.deaths;
+			roundActions = Peli.roundActions;
+			pisteet = 1 - (deaths + rounds);
 		}
 		if (buttonActive && !Peli.suorita && komentoAlue.transform.childCount > 0) {
 			button.GetComponent<Button> ().interactable = true;
@@ -123,6 +130,7 @@ public class SceneController : MonoBehaviour {
 
 	public void Aloita() {
 		buttonActive = false;
+		Peli.rounds++;
 	}
 
 	public void delayAloita() {
@@ -131,7 +139,7 @@ public class SceneController : MonoBehaviour {
 	}
 
 	public void emptyToiminnot() {
-		FPS.SendMessage ("kameranVaihto");
+		//FPS.SendMessage ("kameranVaihto");
 		for(int i = 0; i < komentoAlue.transform.childCount; i++) {
 			Destroy (komentoAlue.transform.GetChild(i).gameObject);
 		}

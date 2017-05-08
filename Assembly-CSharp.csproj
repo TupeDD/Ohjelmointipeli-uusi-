@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Campfire\Script\FireLightScript.cs" />
      <Compile Include="Assets\Database.cs" />
+     <Compile Include="Assets\EasyGrassSubstance\Example Scene\ObjectRotation.cs" />
      <Compile Include="Assets\EffectExamples\Shared\Scripts\DecalDestroyer.cs" />
      <Compile Include="Assets\EffectExamples\Shared\Scripts\GunAim.cs" />
      <Compile Include="Assets\EffectExamples\Shared\Scripts\GunShoot.cs" />
@@ -109,6 +110,7 @@
      <Compile Include="Assets\Slot.cs" />
      <Compile Include="Assets\coin.cs" />
      <Compile Include="Assets\dragDrop.cs" />
+     <Compile Include="Assets\explosion.cs" />
      <Compile Include="Assets\mapLoader.cs" />
      <Compile Include="Assets\scoreToDB.cs" />
      <None Include="Assets\PostProcessing\Resources\Shaders\DepthOfField.shader" />
@@ -153,6 +155,7 @@
      <None Include="Assets\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
      <None Include="Assets\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
      <None Include="Assets\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
+     <None Include="Assets\EasyGrassSubstance\Documentation.txt" />
      <None Include="Assets\PostProcessing\Resources\Shaders\Bloom.shader" />
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
      <None Include="Assets\PostProcessing\Editor Resources\Monitors\VectorscopeRender.shader" />
