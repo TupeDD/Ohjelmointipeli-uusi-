@@ -74,7 +74,7 @@ public class Peli : MonoBehaviour {
 	public AudioClip vic1;
 	public AudioClip vic2;
 	public AudioClip vic3;
-	AudioSource audio;
+	AudioSource Audio;
 
 	// Tykit Terrain3
 	public GameObject can1;
@@ -82,6 +82,7 @@ public class Peli : MonoBehaviour {
 	public GameObject can3;
 
 	public GameObject deathScreen;
+	public GameObject winScreen;
 
 	// Use this for initialization
 	void Start () {
@@ -89,11 +90,11 @@ public class Peli : MonoBehaviour {
 		suuntaText = GameObject.FindGameObjectWithTag ("suuntaText");
 		//liiku (5);
 		//kaanny("oikea");
-		audio = GetComponent<AudioSource>();
+		Audio = GetComponent<AudioSource>();
 		coinsToWin = GameObject.FindGameObjectsWithTag ("Coin").Length;
 		TOIMINTA = new List<string> ();
 		TOIMINTA2 = new List<string> ();
-		originalPosition = new Vector3 (2.6f, 2f, 2.26f);
+		originalPosition = new Vector3 (4f, 2f, 3.5f);
 		originalRotation = pelaaja.transform.rotation;
 		freezeOn = GetComponentInChildren<FrostEffect> ().enabled;
 		coins = 0;
@@ -224,16 +225,23 @@ public class Peli : MonoBehaviour {
 			}
 		}
 		if (die) {
-			if (Mathf.Round(pelaaja.transform.localEulerAngles.z) == die_z) {
-				die = false;
-				deathScreen.gameObject.SetActive (true);
+			if (die_z > 0) {
+				if (Mathf.Round(pelaaja.transform.localEulerAngles.z) >= die_z) {
+					die = false;
+					deathScreen.gameObject.SetActive (true);
+				} 
+				else {
+					pelaaja.transform.Rotate (0, 0, 1f);
+				} 
 			} 
 			else {
-				if (die_z < 0) {
+				if (Mathf.Round(pelaaja.transform.localEulerAngles.z) <= die_z) {
+					die = false;
+					deathScreen.gameObject.SetActive (true);
+				} 
+				else {
 					pelaaja.transform.Rotate (0, 0, -1f);
-				} else {
-					pelaaja.transform.Rotate (0, 0, 1f);
-				}
+				} 
 			}
 		}
 	}
@@ -346,6 +354,7 @@ public class Peli : MonoBehaviour {
 		TOIMINTA2.Clear ();
 		fps.Vertical = 0;
 		suunta = "up";
+		suuntaNumero = 0;
 		suorita = false;
 		Liiku = false;
 		askeleet = 0;
@@ -359,18 +368,20 @@ public class Peli : MonoBehaviour {
 		TOIMINTA2.Clear ();
 		fps.Vertical = 0;
 		suorita = false;
-		float soundTime;
+
 		if (mapLoader.mapNum == 1) {
-			audio.PlayOneShot (vic1, 1f);
-			soundTime = vic1.length;
+			Audio.PlayOneShot (vic1, 1f);
 		} else if (mapLoader.mapNum == 2) {
-			audio.PlayOneShot (vic2, 0.7f);
-			soundTime = vic2.length;
+			Audio.PlayOneShot (vic2, 0.7f);
 		} else {
-			audio.PlayOneShot (vic3, 1f);
-			soundTime = vic3.length;
+			Audio.PlayOneShot (vic3, 1f);
 		}
-		Invoke ("sceneLoad", soundTime);
+		winScreen.SetActive (true);
+	}
+
+	public void winButtonFunction() {
+		sceneLoad ();
+		winScreen.SetActive (false);
 	}
 
 	void sceneLoad() {
@@ -384,10 +395,39 @@ public class Peli : MonoBehaviour {
 		SceneManager.LoadScene(scene);
 	}
 
+	void OnCollisionEnter(Collision col) {
+		if (col.gameObject.tag == "border" && !Kaanny && Liiku) {
+			string lupasuunta = "";
+
+			if (col.gameObject.name == "Border1") {
+				lupasuunta = "left";
+			}
+			else if (col.gameObject.name == "Border2") {
+				lupasuunta = "right";
+			}
+			else if (col.gameObject.name == "Border3") {
+				lupasuunta = "up";
+			}
+			else if (col.gameObject.name == "Border4") {
+				lupasuunta = "down";
+			}
+
+			if (suunta != lupasuunta) {
+				fps.Vertical = 0;
+				Liiku = false;
+				waiting = false;
+				if (Laskin >= TOIMINTA.Count) {
+					TOIMINTA.Clear ();
+					TOIMINTA2.Clear ();
+				}
+			}
+		}
+	}
+
 	void OnTriggerEnter(Collider col) {
 		if (col.gameObject.tag == "Coin") {
 			Destroy (col.gameObject);
-			audio.PlayOneShot (collect, 0.7f);
+			Audio.PlayOneShot (collect, 0.7f);
 			coins++;
 			//coins+=4;
 			if (coins == coinsToWin) {
@@ -395,7 +435,7 @@ public class Peli : MonoBehaviour {
 			}
 		}
 		if (col.gameObject.tag == "Lava") {
-			audio.PlayOneShot (burn, 0.7f);
+			Audio.PlayOneShot (burn, 0.7f);
 			Die ();
 		}
 		if (col.gameObject.tag == "Fire") {

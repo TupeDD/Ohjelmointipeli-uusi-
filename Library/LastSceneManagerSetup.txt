@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Peli.unity
+- path: Assets/Alkusivu.unity
   isLoaded: 1
   isActive: 1

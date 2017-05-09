@@ -6,7 +6,7 @@ public class explosion : MonoBehaviour {
 
 	public GameObject explosionEffect;
 	private Vector3 orgPos;
-	private string name;
+	private string Name = "";
 
 	// Use this for initialization
 	void Start () {
@@ -20,10 +20,10 @@ public class explosion : MonoBehaviour {
 
 	public void explode() {
 		Invoke ("reset", 1f);
-		if (name == "cannon1") {
+		if (Name == "cannon1") {
 			explosionEffect.SetActive (true);
 			gameObject.GetComponent<Rigidbody> ().AddForce (new Vector3(0, 0, -1500f));
-		} else if (name == "cannon2") {
+		} else if (Name == "cannon2") {
 			explosionEffect.SetActive (true);
 			gameObject.GetComponent<Rigidbody> ().AddForce (new Vector3(-1500f, 0, 0));
 		} else {

@@ -21,6 +21,7 @@ TagManager:
   - map2
   - map3
   - cannon
+  - border
   layers:
   - Default
   - TransparentFX
