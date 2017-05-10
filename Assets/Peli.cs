@@ -444,7 +444,9 @@ public class Peli : MonoBehaviour {
 		if (col.gameObject.tag == "cannon") {
 			col.gameObject.transform.parent.gameObject.transform.Find("cannon ball pref").gameObject.SetActive(true);
 			col.gameObject.transform.parent.gameObject.transform.Find("cannon ball pref").gameObject.GetComponent<explosion>().explode();
-			Die ();
+			if (explosion.EXPLODE) {
+				Die ();
+			}
 		}
 	}
 	void OnTriggerExit(Collider col) {
